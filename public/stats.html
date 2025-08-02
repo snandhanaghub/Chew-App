@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chew™ - Stats</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="center-container">
+    <div class="main-card stats-card">
+      <div class="app-header">
+        <div class="bubble-emoji">📊</div>
+        <h1>My Chew Stats</h1>
+      </div>
+      <p class="welcome">Your gum-chewing achievements, <span id="statsUsername"></span>!</p>
+      
+      <div class="stats-grid">
+        <div class="stat-card bg-pink">
+          <div class="stat-icon">⏱️</div>
+          <h3>Longest Chew</h3>
+          <p id="longestChew">00:00</p>
+        </div>
+        
+        <div class="stat-card bg-blue">
+          <div class="stat-icon">🔥</div>
+          <h3>Current Streak</h3>
+          <p id="currentStreak">0 days</p>
+        </div>
+        
+        <div class="stat-card bg-purple">
+          <div class="stat-icon">📅</div>
+          <h3>Today's Chews</h3>
+          <p id="todaysChews">0</p>
+        </div>
+        
+        <div class="stat-card bg-green">
+          <div class="stat-icon">⏳</div>
+          <h3>Average Time</h3>
+          <p id="averageChew">00:00</p>
+        </div>
+        
+        <div class="stat-card bg-yellow">
+          <div class="stat-icon">🔄</div>
+          <h3>Total Sessions</h3>
+          <p id="totalSessions">0</p>
+        </div>
+        
+        <div class="stat-card bg-orange">
+          <div class="stat-icon">🕒</div>
+          <h3>Total Time</h3>
+          <p id="totalTime">00:00</p>
+        </div>
+      </div>
+
+      <div class="nav-links">
+        <a href="home.html" class="nav-link">Timer</a>
+        <a href="leaderboard.html" class="nav-link">Leaderboard</a>
+        <a href="#" id="logoutBtn" class="nav-link">Log Out</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="bubbles">
+    <div class="bubble" style="--size: 50px; --delay: 2s; --color: var(--pastel-blue)">🫧</div>
+    <div class="bubble" style="--size: 40px; --delay: 4s; --color: var(--pastel-purple)">🫧</div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

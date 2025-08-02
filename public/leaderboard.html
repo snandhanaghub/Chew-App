@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chew™ - Leaderboard</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="center-container">
+    <div class="main-card leaderboard-card">
+      <div class="app-header">
+        <div class="bubble-emoji">🏆</div>
+        <h1>Chew™ Leaderboard</h1>
+      </div>
+      <p>Top gum chewers worldwide!</p>
+      
+      <div class="leaderboard" id="leaderboardEntries">
+        <!-- Entries will load here -->
+      </div>
+      
+      <div class="leaderboard-actions">
+        <button id="clearLeaderboardBtn" class="btn btn-pink">Clear Leaderboard</button>
+      </div>
+
+      <div class="nav-links">
+        <a href="home.html" class="nav-link">Timer</a>
+        <a href="stats.html" class="nav-link">My Stats</a>
+        <a href="#" id="logoutBtn" class="nav-link">Log Out</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="bubbles">
+    <div class="bubble" style="--size: 60px; --delay: 1s; --color: var(--pastel-green)">🫧</div>
+    <div class="bubble" style="--size: 40px; --delay: 3s; --color: var(--pastel-orange)">🫧</div>
+  </div>
+
+  <script>
+    // Check login status
+    const currentUser = localStorage.getItem('currentUser');
+    if (!currentUser) {
+      window.location.href = 'index.html';
+    }
+
+    // Load leaderboard
+    updateLeaderboard();
+
+    // Format time as MM:SS
+    function formatTime(ms) {
+      const totalSeconds = Math.floor(ms / 1000);
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    // Update leaderboard display
+    function updateLeaderboard() {
+      const entries = JSON.parse(localStorage.getItem('chewLeaderboard')) || [];
+      const leaderboardElement = document.getElementById('leaderboardEntries');
+      
+      // Sort by longest chew time
+      entries.sort((a, b) => b.time - a.time);
+      
+      leaderboardElement.innerHTML = entries.map(entry => `
+        <div class="leaderboard-entry">
+          <span class="leaderboard-name">${entry.name}</span>
+          <span class="leaderboard-time">${formatTime(entry.time)}</span>
+          <span class="leaderboard-date">${entry.date}</span>
+        </div>
+      `).join('');
+    }
+
+    // Clear leaderboard
+    document.getElementById('clearLeaderboardBtn').addEventListener('click', () => {
+      if (confirm("Are you sure you want to clear the leaderboard?")) {
+        localStorage.removeItem('chewLeaderboard');
+        updateLeaderboard();
+      }
+    });
+
+    // Logout functionality
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('currentUser');
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>

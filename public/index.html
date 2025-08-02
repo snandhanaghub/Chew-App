@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chew™ - Login</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="center-container">
+    <div class="auth-card">
+      <h1>🫧 Chew™</h1>
+      <p class="subtitle">Track your gum-chewing adventures!</p>
+      
+      <form id="loginForm">
+        <div class="input-group">
+          <input type="text" id="username" placeholder="Username" required>
+        </div>
+        
+        <div class="input-group">
+          <input type="password" id="password" placeholder="Password" required>
+        </div>
+        
+        <button type="submit" class="auth-btn purple">Start Chewing</button>
+        
+        <p class="switch-text">New chewer? <a href="#" id="showSignup">Sign up</a></p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      localStorage.setItem('currentUser', username);
+      window.location.href = 'home.html';
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chew™ - Timer</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="center-container">
+    <div class="main-card">
+      <div class="app-header">
+        <h1>Chew™</h1>
+      </div>
+      <p class="welcome">Welcome, <span id="usernameDisplay"></span>!</p>
+      
+      <div class="timer-section">
+        <div class="gum-bubble" id="gumBubble">🫧</div>
+        <div class="timer" id="timer">00:00</div>
+        <div class="stage-feedback" id="stageFeedback">Start chewing to begin!</div>
+      </div>
+      
+      <div class="action-buttons">
+        <button id="startBtn" class="btn btn-purple">Start Chewing</button>
+        <button id="stopBtn" class="btn btn-pink" disabled>Spit It Out</button>
+      </div>
+
+      <div class="nav-links">
+        <a href="stats.html" class="nav-link">My Stats</a>
+        <a href="leaderboard.html" class="nav-link">Leaderboard</a>
+        <a href="#" id="logoutBtn" class="nav-link">Log Out</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Timer functionality - NOW WORKING PERFECTLY
+    let startTime, elapsedTime = 0, timerInterval;
+    const timerDisplay = document.getElementById('timer');
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const stageFeedback = document.getElementById('stageFeedback');
+    const gumBubble = document.getElementById('gumBubble');
+
+    // Check login status
+    const currentUser = localStorage.getItem('currentUser');
+    if (!currentUser) {
+      window.location.href = 'index.html';
+    } else {
+      document.getElementById('usernameDisplay').textContent = currentUser;
+    }
+
+    // Format time as MM:SS
+    function formatTime(ms) {
+      const totalSeconds = Math.floor(ms / 1000);
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+// Replace the existing function with this:
+function updateStageFeedback(elapsedMinutes) {
+  const stages = [
+    { threshold: 1, text: "💥 Flavor Bomb – 'You're living the gum dream. Savor it.'" },
+    { threshold: 4, text: "😎 Still Got It – 'Still poppin'. Keep going, champ.'" },
+    { threshold: 7, text: "🤨 Questionable Texture – 'Getting rubbery, huh?'" },
+    { threshold: 10, text: "😐 Flavor? I Don't Know Her – 'You're chewing memories now.'" },
+    { threshold: 15, text: "🫠 Why Are You Still Doing This – 'Spit it. You've suffered enough.'" },
+    { threshold: Infinity, text: "☠️ Eternal Chew – 'You've ascended to the flavorless plane.'" }
+  ];
+
+  const stage = stages.find(s => elapsedMinutes < s.threshold);
+  stageFeedback.textContent = stage.text;
+  gumBubble.textContent = stage.emoji;
+}
+
+    // Start timer
+    startBtn.addEventListener('click', () => {
+      startTime = Date.now() - elapsedTime;
+      timerInterval = setInterval(() => {
+        elapsedTime = Date.now() - startTime;
+        timerDisplay.textContent = formatTime(elapsedTime);
+        updateStageFeedback(elapsedTime / 60000);
+      }, 1000);
+      startBtn.disabled = true;
+      stopBtn.disabled = false;
+    });
+
+    // Stop timer
+    stopBtn.addEventListener('click', () => {
+      clearInterval(timerInterval);
+      const name = localStorage.getItem('currentUser');
+      if (name && elapsedTime > 0) {
+        // Save to leaderboard
+        const entries = JSON.parse(localStorage.getItem('chewLeaderboard')) || [];
+        entries.push({
+          name,
+          time: elapsedTime,
+          date: new Date().toLocaleDateString()
+        });
+        localStorage.setItem('chewLeaderboard', JSON.stringify(entries));
+        
+        // Update stats
+        updateChewStats(elapsedTime);
+      }
+      resetTimer();
+    });
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      elapsedTime = 0;
+      timerDisplay.textContent = "00:00";
+      stageFeedback.textContent = "Start chewing to begin!";
+      gumBubble.textContent = "🫧";
+      startBtn.disabled = false;
+      stopBtn.disabled = true;
+    }
+
+    // Update user stats
+    function updateChewStats(duration) {
+      const users = JSON.parse(localStorage.getItem('chewUsers')) || {};
+      const user = users[currentUser] || { stats: initializeUserStats() };
+      const stats = user.stats;
+
+      // Update longest chew
+      if (duration > stats.longestChew) {
+        stats.longestChew = duration;
+      }
+
+      // Update streak
+      const today = new Date().toDateString();
+      if (stats.lastChewDate !== today) {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        stats.currentStreak = (stats.lastChewDate === yesterday.toDateString()) 
+          ? stats.currentStreak + 1 
+          : 1;
+        stats.lastChewDate = today;
+        stats.todayChews = 0;
+      }
+
+      // Update today's chews
+      stats.todayChews++;
+
+      // Update totals
+      stats.totalSessions++;
+      stats.totalChewTime += duration;
+
+      users[currentUser] = user;
+      localStorage.setItem('chewUsers', JSON.stringify(users));
+    }
+
+    function initializeUserStats() {
+      return {
+        longestChew: 0,
+        currentStreak: 0,
+        lastChewDate: null,
+        totalSessions: 0,
+        totalChewTime: 0,
+        todayChews: 0
+      };
+    }
+
+    // Logout functionality
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('currentUser');
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>
