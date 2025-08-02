@@ -66,3 +66,12 @@ All while doing something completely useless and totally hilarious.
 git clone https://github.com/yourusername/chew-app.git
 cd chew-app
 npm install
+```
+
+### Run
+
+```bash
+git clone https://github.com/yourusername/chew-app.git
+cd chew-app
+npm install
+```
