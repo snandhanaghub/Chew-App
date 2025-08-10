@@ -77,15 +77,19 @@ npm start
 #### Screenshots
 
 <img width="1920" height="1080" alt="Screenshot 2025-08-02 075608" src="https://github.com/user-attachments/assets/46cf397e-8c28-48e2-b574-f05103d5482f" />
+
 A login screen more secure than your bank for... gum.
 
 <img width="1920" height="1080" alt="Screenshot 2025-08-02 075745" src="https://github.com/user-attachments/assets/f6129891-4229-4e26-aab6-b13504735fcc" />
 <img width="1920" height="1080" alt="Screenshot 2025-08-02 075625" src="https://github.com/user-attachments/assets/1a66b9ea-ae39-4895-836c-1b6815ac472c" />
+
 Start chewing. Timer begins. Legendary.
 
 <img width="1920" height="1080" alt="Screenshot 2025-08-02 075817" src="https://github.com/user-attachments/assets/0c4b6152-1d56-464d-ac8a-78ee26f9f903" />
+
 The ultimate chew-off. This screen ranks users by how long (and how often) they chew — because bragging rights over gum stamina is now a real thing.
 
 <img width="1920" height="1080" alt="Screenshot 2025-08-02 075801" src="https://github.com/user-attachments/assets/296c4811-de4d-4eb7-8e70-97cb3aca71a8" />
+
 Your weekly chew scorecard because why not.
 
